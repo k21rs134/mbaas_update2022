@@ -38,17 +38,17 @@
             //UTdata.order(sub, false).fetchAll()
             UTdata.fetchAll()
                 .then(function(results) {
-                    ///*
+                    /*
                     let msg = "";
                     for (let i = 0; i < results.length; i++) {
                         msg += results[i].get(sub) + "  " + results[i].get(key) + "<br>";
                     }
-                    //*/
-                    //showResults(results);
+                    */
                     $("#display").removeClass();
                     $("#display").addClass("text-light");
                     $("#display").addClass("bg-primary");
-                    $("#display").html(msg);
+                    //$("#display").html(msg);
+                    showResults(results);
                 })
                 .catch(function(error) {
                     $("#display").removeClass();
@@ -60,14 +60,17 @@
         function sortData() {
             UTdata.order(key, true).fetchAll()
                 .then(function(results) {
+                    /*
                     let msg = "";
                     for (let i = 0; i < results.length; i++) {
                         msg += results[i].get(sub) + "  " + results[i].get(key) + "<br>";
                     }
+                    */
                     $("#display").removeClass();
                     $("#display").addClass("text-light");
                     $("#display").addClass("bg-primary");
-                    $("#display").html(msg);
+                    //$("#display").html(msg);
+                    showResults(results);
                 })
                 .catch(function(error) {
                     $("#display").removeClass();
@@ -128,7 +131,7 @@
 
         function showResults(results) {
             // テーブルのヘッダを生成
-            let msg = "<table><tr><th>sub</th><th>key</th></tr>";
+            let msg = "<table><tr><th>Subject</th><th>Score</th></tr>";
             for (let i = 0; i < results.length; i++) {
                 // 各データを収めた表の列を生成
                 msg += "<tr>";
@@ -138,7 +141,8 @@
             }
             // テーブルのテイラを生成
             msg += "</table>";
-            $("#message").html(msg);
+            //$("#message").html(msg);
+            $("#display").html(msg);
         }
     </script>
 </head>
