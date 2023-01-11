@@ -12,13 +12,16 @@
     <script>
         let ncmb = new NCMB(appKey, clientKey);
         let UTdata = ncmb.DataStore("UpdateTest");
+        let date = "date";
         let sub = "subject";
         let key = "score";
 
         function enterData() {
             let uTdata = new UTdata();
+            let dateVal = $("#dateData").val();
             let subVal = $("#subData").val();
             let value = parseInt($("#data").val());
+            uTdata.set(date, dateVal)
             uTdata.set(sub, subVal)
             uTdata.set(key, value)
                 .save()
@@ -150,9 +153,11 @@
 <body>
     <h1 class="text-light bg-secondary">mbaas update</h1>
     <div>
+        <input type="date" id="dateData" placeholder="日付">
+        <br>
         <input type="text" id="subData" placeholder="教科">
         <br>
-        <input type="text" id="data" placeholder="スコア">
+        <input type="number" id="data" placeholder="スコア">
         <a onclick="enterData()" class="btn btn-outline-secondary" role="button">Enter</a>
     </div>
     <div>
