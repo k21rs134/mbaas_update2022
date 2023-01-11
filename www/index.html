@@ -16,6 +16,57 @@
         let sub = "subject";
         let key = "score";
 
+        function dateSearch() {
+            let dateVal = $("#dateData").val();
+            UTdata.equalTo(date , dateVal).fetchAll()
+                .then(function(results) {
+                    $("#display").removeClass();
+                    $("#display").addClass("text-light");
+                    $("#display").addClass("bg-primary");
+                    //$("#display").html(msg);
+                    showResults(results);
+                })
+                .catch(function(error) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-warning");
+                    $("#display").html("delete fail:" + JSON.stringify(error));
+                })
+        }
+
+        function subjectSearch() {
+            let subVal = $("#subData").val();
+            UTdata.equalTo(sub , subVal).fetchAll()
+                .then(function(results) {
+                    $("#display").removeClass();
+                    $("#display").addClass("text-light");
+                    $("#display").addClass("bg-primary");
+                    //$("#display").html(msg);
+                    showResults(results);
+                })
+                .catch(function(error) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-warning");
+                    $("#display").html("delete fail:" + JSON.stringify(error));
+                })
+        }
+
+        function scoreSearch() {
+            let value = parseInt($("#data").val());
+            UTdata.equalTo(key , value).fetchAll()
+                .then(function(results) {
+                    $("#display").removeClass();
+                    $("#display").addClass("text-light");
+                    $("#display").addClass("bg-primary");
+                    //$("#display").html(msg);
+                    showResults(results);
+                })
+                .catch(function(error) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-warning");
+                    $("#display").html("delete fail:" + JSON.stringify(error));
+                })
+        }
+
         function enterData() {
             let uTdata = new UTdata();
             let dateVal = $("#dateData").val();
@@ -34,6 +85,23 @@
                     $("#display").removeClass();
                     $("#display").addClass("bg-warning");
                     $("#display").html("enter fail");
+                })
+        }
+
+        function deleteData() {
+            UTdata.fetch()
+                .then(function(results) {
+                    return results.delete();
+                })
+                .then(function(results) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-success");
+                    $("#display").html("delete success");
+                })
+                .catch(function(error) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-warning");
+                    $("#display").html("delete fail:" + JSON.stringify(error));
                 })
         }
 
@@ -57,6 +125,20 @@
                     $("#display").removeClass();
                     $("#display").addClass("bg-warning");
                     $("#display").html("delete fail:" + JSON.stringify(error));
+                })
+        }
+
+        function countData() {
+            UTdata.count().fetchAll()
+                .then(function(results) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-success");
+                    $("#display").html(results.count);
+                })
+                .catch(function(error) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-warning");
+                    $("#display").html("count fail:" + JSON.stringify(error));
                 })
         }
 
@@ -126,37 +208,7 @@
                 })
         }
 
-        function countData() {
-            UTdata.count().fetchAll()
-                .then(function(results) {
-                    $("#display").removeClass();
-                    $("#display").addClass("bg-success");
-                    $("#display").html(results.count);
-                })
-                .catch(function(error) {
-                    $("#display").removeClass();
-                    $("#display").addClass("bg-warning");
-                    $("#display").html("count fail:" + JSON.stringify(error));
-                })
-        }
-
-        function deleteData() {
-            UTdata.fetch()
-                .then(function(results) {
-                    return results.delete();
-                })
-                .then(function(results) {
-                    $("#display").removeClass();
-                    $("#display").addClass("bg-success");
-                    $("#display").html("delete success");
-                })
-                .catch(function(error) {
-                    $("#display").removeClass();
-                    $("#display").addClass("bg-warning");
-                    $("#display").html("delete fail:" + JSON.stringify(error));
-                })
-        }
-
+        /*
         function updateData() {
             UTdata.fetch()
                 .then(function(results) {
@@ -175,6 +227,7 @@
                     $("#display").html("delete fail:" + JSON.stringify(error));
                 })
         }
+        */
 
         function showResults(results) {
             // テーブルのヘッダを生成
@@ -201,26 +254,27 @@
     <h1 class="text-light bg-secondary">mbaas update</h1>
     <div>
         <input type="date" id="dateData" placeholder="日付">
+        <a onclick="dateSearch()" class="btn btn-outline-secondary" role="button">Date Search</a>
         <br>
         <input type="text" id="subData" placeholder="教科">
+        <a onclick="subjectSearch()" class="btn btn-outline-secondary" role="button">Subject Search</a>
         <br>
         <input type="number" id="data" placeholder="スコア">
-        <a onclick="enterData()" class="btn btn-outline-secondary" role="button">Enter</a>
+        <a onclick="scoreSearch()" class="btn btn-outline-secondary" role="button">Score Search</a>
+        <br>
+        <a onclick="enterData()" class="btn btn-primary" role="button">Enter</a>
+        <a onclick="deleteData()" class="btn btn-warning" role="buton">Delete</a>
+        <a onclick="fetchAll()" class="btn btn-outline-secondary" role="buton">Fetch All</a>
+        <a onclick="countData()" class="btn btn-outline-secondary" role="button">Count</a>
     </div>
     <div>
-        <a onclick="fetchAll()" class="btn btn-outline-secondary" role="buton">Fetch All</a>
-        <br>
         <a onclick="dateSortData()" class="btn btn-outline-secondary" role="button">Date Sort</a>
         <a onclick="subjectSortData()" class="btn btn-outline-secondary" role="button">Subject Sort</a>
         <a onclick="scoreSortData()" class="btn btn-outline-secondary" role="button">Score Sort</a>
-        <br>
-        <a onclick="countData()" class="btn btn-outline-secondary" role="button">Count</a>
-        <a onclick="deleteData()" class="btn btn-outline-secondary" role="buton">Delete</a>
     </div>
-    <div>
-        <input type="text" id="update" placeholder="更新">
-        <a onclick="updateData()" class="btn btn-outline-secondary" role="button">Update</a>
-    </div>
+    
+    <pre>
+    </pre>
     <div id="display" class="text-light bg-info">
         Results
     </div>
