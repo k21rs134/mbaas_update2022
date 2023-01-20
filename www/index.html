@@ -50,6 +50,41 @@
                 })
         }
 
+        function subjectSum() {
+            let subVal = $("#subData").val();
+            let value = parseInt($("#data").val());
+            UTdata.equalTo(sub , subVal).fetchAll()
+                .then(function(results) {
+                    $("#display").removeClass();
+                    $("#display").addClass("text-light");
+                    $("#display").addClass("bg-primary");
+                    //$("#display").html(msg);
+                    showSumResults(results);
+                })
+                .catch(function(error) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-warning");
+                    $("#display").html("delete fail:" + JSON.stringify(error));
+                })
+        }
+        function subjectAve() {
+            let subVal = $("#subData").val();
+            let value = parseInt($("#data").val());
+            UTdata.equalTo(sub , subVal).fetchAll()
+                .then(function(results) {
+                    $("#display").removeClass();
+                    $("#display").addClass("text-light");
+                    $("#display").addClass("bg-primary");
+                    //$("#display").html(msg);
+                    showAveResults(results);
+                })
+                .catch(function(error) {
+                    $("#display").removeClass();
+                    $("#display").addClass("bg-warning");
+                    $("#display").html("delete fail:" + JSON.stringify(error));
+                })
+        }
+
         function scoreSearch() {
             let value = parseInt($("#data").val());
             UTdata.equalTo(key , value).fetchAll()
@@ -96,7 +131,6 @@
                 .equalTo(sub , subVal)
                 .equalTo(key , value)
                 .fetch()
-            //UTdata.fetch()
                 .then(function(results) {
                     return results.delete();
                 })
@@ -108,7 +142,7 @@
                 .catch(function(error) {
                     $("#display").removeClass();
                     $("#display").addClass("bg-warning");
-                    $("#display").html("delete fail:" + JSON.stringify(error));
+                    $("#display").html("削除したいものを指定してください<br>delete fail:" + JSON.stringify(error));
                 })
         }
 
@@ -140,7 +174,7 @@
                 .then(function(results) {
                     $("#display").removeClass();
                     $("#display").addClass("bg-success");
-                    $("#display").html(results.count);
+                    $("#display").html(results.count + "コ");
                 })
                 .catch(function(error) {
                     $("#display").removeClass();
@@ -254,20 +288,39 @@
             //$("#message").html(msg);
             $("#display").html(msg);
         }
+
+        function showSumResults(results) {
+            let sum = 0;
+            for (let i = 0; i < results.length; i++) {
+                sum += results[i].get(key);
+            }
+            $("#display").html("合計" + sum + "点");
+        }
+
+        function showAveResults(results) {
+            let sum = 0;
+            for (let i = 0; i < results.length; i++) {
+                sum += results[i].get(key);
+            }
+            $("#display").html("平均" + sum / results.length + "点");
+        }
+
     </script>
 </head>
 
 <body>
-    <h1 class="text-light bg-secondary">mbaas update</h1>
+    <h1 class="text-light bg-secondary">Score Management</h1>
     <div>
         <input type="date" id="dateData" placeholder="日付">
-        <a onclick="dateSearch()" class="btn btn-outline-secondary" role="button">Date Search</a>
+        <a onclick="dateSearch()" class="btn btn-outline-secondary" role="button">Date Search🔍</a>
         <br>
         <input type="text" id="subData" placeholder="教科">
-        <a onclick="subjectSearch()" class="btn btn-outline-secondary" role="button">Subject Search</a>
+        <a onclick="subjectSearch()" class="btn btn-outline-secondary" role="button">🔍</a>
+        <a onclick="subjectSum()" class="btn btn-outline-secondary" role="button">Sum</a>
+        <a onclick="subjectAve()" class="btn btn-outline-secondary" role="button">Ave</a>
         <br>
         <input type="number" id="data" placeholder="スコア">
-        <a onclick="scoreSearch()" class="btn btn-outline-secondary" role="button">Score Search</a>
+        <a onclick="scoreSearch()" class="btn btn-outline-secondary" role="button">🔍</a>
         <br>
         <a onclick="enterData()" class="btn btn-primary" role="button">Enter</a>
         <a onclick="deleteData()" class="btn btn-warning" role="buton">Delete</a>
